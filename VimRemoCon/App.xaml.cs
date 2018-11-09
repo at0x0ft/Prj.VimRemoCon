@@ -35,6 +35,12 @@ namespace VimRemoCon
 		/// <param name="e"></param>
 		protected override void OnExit(ExitEventArgs e)
 		{
+			if(KeyboardHook.IsHooking)
+			{
+				KeyboardHook.Stop();
+				System.Diagnostics.Debug.Print("[Debug] : Hook stopped.");	// 4debug
+			}
+
 			base.OnExit(e);
 			this._notifyIcon.Dispose();
 		}
