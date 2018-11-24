@@ -22,10 +22,10 @@ namespace VimRemoCon
 			InitializeComponent();
 
 			// Subscribe context menu event.
-			this.toolStripMenuItem_Open.Click += this.ToolStripMenuItem_Open_Click;
-			this.toolStripMenuItem_Exit.Click += this.ToolStripMenuItem_Exit_Click;
+			toolStripMenuItem_Open.Click += ToolStripMenuItem_Open_Click;
+			toolStripMenuItem_Exit.Click += ToolStripMenuItem_Exit_Click;
 
-			// グローバルキーフックの開始
+			// Start key hook.
 			if(KeyboardHook.IsHooking)
 			{
 				KeyboardHook.Stop();
@@ -66,11 +66,11 @@ namespace VimRemoCon
 		/// <param name="e"></param>
 		private void ToolStripMenuItem_Exit_Click(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.Print("[Debug] : NotifyIconWrapper.ToolStripMenuItem_Exit_Click called");	// 4debug
+			Debug.Print("[Debug] : NotifyIconWrapper.ToolStripMenuItem_Exit_Click called");	// 4debug
 
 			// Unsubscribe context menu event.
-			this.toolStripMenuItem_Open.Click -= this.ToolStripMenuItem_Open_Click;
-			this.toolStripMenuItem_Exit.Click -= this.ToolStripMenuItem_Exit_Click;
+			toolStripMenuItem_Open.Click -= ToolStripMenuItem_Open_Click;
+			toolStripMenuItem_Exit.Click -= ToolStripMenuItem_Exit_Click;
 
 			// Shutdown this app.
 			Application.Current.Shutdown();

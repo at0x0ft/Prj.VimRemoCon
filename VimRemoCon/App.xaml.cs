@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,6 +15,11 @@ namespace VimRemoCon
 	public partial class App : Application
 	{
 		/// <summary>
+		/// Mutex which avoid the mutiple starting of this app.
+		/// </summary>
+		private static Mutex _mutex;
+
+		/// <summary>
 		/// Icon in task tray
 		/// </summary>
 		private NotifyIconWrapper _notifyIcon;
@@ -24,9 +30,11 @@ namespace VimRemoCon
 		/// <param name="e"></param>
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			if(CheckHasStarted()) return;
+
 			base.OnStartup(e);
-			this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-			this._notifyIcon = new NotifyIconWrapper();
+			ShutdownMode = ShutdownMode.OnExplicitShutdown;
+			_notifyIcon = new NotifyIconWrapper();
 		}
 
 		/// <summary>
@@ -42,7 +50,24 @@ namespace VimRemoCon
 			}
 
 			base.OnExit(e);
-			this._notifyIcon.Dispose();
+			_notifyIcon.Dispose();
+		}
+
+		/// <summary>
+		/// Check has started this app (with Mutex).
+		/// </summary>
+		/// <returns></returns>
+		private bool CheckHasStarted()
+		{
+			_mutex = new Mutex(false, "VimRemoCon-{40B84AD3-7AAD-4277-A45B-1804ADE21FE4}");
+			if(!_mutex.WaitOne(0, false))
+			{
+				_mutex.Close();
+				_mutex = null;
+				Shutdown();
+				return true;
+			}
+			return false;
 		}
 	}
 }

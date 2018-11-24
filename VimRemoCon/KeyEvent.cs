@@ -18,7 +18,7 @@ namespace VimRemoCon
 			Visual
 		}
 
-		private static VimMode CurrentVimMode { get; set; }
+		private static VimMode CurrentMode { get; set; }
 
 		/// <summary>
 		/// キーボード操作時に実行する関数
@@ -26,16 +26,16 @@ namespace VimRemoCon
 		/// <param name="s">キーボードの状態の構造体</param>
 		public static void HookKeyboardTest(ref KeyboardHook.StateKeyboard s)
 		{
-			CurrentVimMode = VimMode.Normal;
+			CurrentMode = VimMode.Normal;
 
-			System.Diagnostics.Debug.Print($"Stroke : {s.Stroke}, Key : {s.Key}, ScanCode : {s.ScanCode}, VimMode : {CurrentVimMode}");	// 4debug
+			System.Diagnostics.Debug.Print($"Stroke : {s.Stroke}, Key : {s.Key}, ScanCode : {s.ScanCode}, VimMode : {CurrentMode}");	// 4debug
 		}
 
 		public static void SetNormal()
 		{
-			if(CurrentVimMode != VimMode.Normal)
+			if(CurrentMode != VimMode.Normal)
 			{
-				CurrentVimMode = VimMode.Normal;
+				CurrentMode = VimMode.Normal;
 			}
 
 			return;
